@@ -2,7 +2,7 @@
 
 It's basically a `traditional firewall`.  
 A traditional firewall is `physical` in nature,  
-whereas the `security-group` around aws EC2 instance is a `virtual` firewall,  
+whereas the `security-group` around aws EC2 instance, or a group of instance, is a `virtual` firewall,  
 in other words, a virtual firewall such as security-group is programmable.  
 
 To get all the available options on ufw command, run:  
@@ -152,3 +152,34 @@ Firewall stopped and disabled on system startup
 ```
 
 As we can see now, the firewall has been turned off, thus it would allow the traffic.  
+
+We can test the above using this code:  
+
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def homepage():
+    return "<h1>Hello World!!</h1>"
+#if __name__ == "__main__":
+#    app.run(host='0.0.0.0',port=8080)
+```
+
+and run the above using:  
+```shell
+ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 --port=8080
+# or run at Flask's default port like below: 
+ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 --port=5000
+# or at stadard http port i.e. 80 like this: 
+ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 --port=80
+```
+
+and then hit the url/dns/Ip in browser, it will work fine as below:  
+
+![image](https://user-images.githubusercontent.com/26399543/147885584-dd929561-4b1e-4fbf-8552-fce68056c115.png)  
+
+Had the physical firewall was turned on and this traffic was not configured to be allowed then this'd not have worked  
+
+
