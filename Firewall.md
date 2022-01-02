@@ -153,9 +153,10 @@ Firewall stopped and disabled on system startup
 
 As we can see now, the firewall has been turned off, thus it would allow the traffic.  
 
-We can test the above using this code:  
+We can test the above using this code, save this in a file - `app.py`:  
 
 ```python
+# app.py
 from flask import Flask
 
 app = Flask(__name__)
