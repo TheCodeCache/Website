@@ -141,3 +141,14 @@ Apache (v6)                DENY        Anywhere (v6)
 we can observe that the status is still active, so as long as the status is active i.e. the firewall is enabled,  
 since there's **`no`** application whitelisted by the firewall, so, all the traffic will get blocked  
 
+Hence, let us turn the firewall off, so that all the traffic will get whitelisted:  
+
+```shell
+ubuntu@ip-172-31-42-44:~$ sudo ufw disable
+```
+output:  
+```shell
+Firewall stopped and disabled on system startup
+```
+
+As we can see now, the firewall has been turned off, thus it would allow the traffic.  
