@@ -180,11 +180,11 @@ ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 -
 
 and then hit the url/dns/Ip in browser, it will work fine as below:  
 
-![image](https://user-images.githubusercontent.com/26399543/147885584-dd929561-4b1e-4fbf-8552-fce68056c115.png)  
+![image](https://user-images.githubusercontent.com/26399543/147885647-d13fa4ae-dc00-4859-a4ac-e36a197267c7.png)  
 
 or  
 
-![image](https://user-images.githubusercontent.com/26399543/147885647-d13fa4ae-dc00-4859-a4ac-e36a197267c7.png)  
+![image](https://user-images.githubusercontent.com/26399543/147885584-dd929561-4b1e-4fbf-8552-fce68056c115.png)  
 
 or  
 
