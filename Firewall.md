@@ -176,9 +176,32 @@ ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 -
 ubuntu@ip-172-31-42-44:~/flask$ sudo FLASK_APP=app.py flask run --host=0.0.0.0 --port=80
 ```
 
+![image](https://user-images.githubusercontent.com/26399543/147885691-db067df7-31eb-48c9-ac7e-9389fd9870c3.png)  
+
 and then hit the url/dns/Ip in browser, it will work fine as below:  
 
 ![image](https://user-images.githubusercontent.com/26399543/147885584-dd929561-4b1e-4fbf-8552-fce68056c115.png)  
+
+or  
+
+![image](https://user-images.githubusercontent.com/26399543/147885647-d13fa4ae-dc00-4859-a4ac-e36a197267c7.png)  
+
+or  
+
+![image](https://user-images.githubusercontent.com/26399543/147885667-7f154806-2eaf-45d8-b31d-257eb6c4ab86.png)  
+
+or  
+
+![image](https://user-images.githubusercontent.com/26399543/147885742-c4aa16f6-b9d7-4a13-9f6f-bd051d8b9077.png)  
+
+or  
+
+![image](https://user-images.githubusercontent.com/26399543/147885700-0b1009c0-5d8d-472c-9ad7-7dbd269041a2.png)  
+
+or  
+
+![image](https://user-images.githubusercontent.com/26399543/147885721-6f39f67e-208f-4333-ac7b-d2118aeddf52.png)  
+
 
 Had the physical firewall was turned on and this traffic was not configured to be allowed then this'd not have worked  
 
