@@ -1,0 +1,253 @@
+Using username "ubuntu".
+Authenticating with public key "imported-openssh-key"
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-1022-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Jan  5 08:40:38 UTC 2022
+
+  System load:  0.0               Processes:             112
+  Usage of /:   28.7% of 7.69GB   Users logged in:       1
+  Memory usage: 28%               IPv4 address for eth0: 172.31.42.44
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+6 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+
+*** System restart required ***
+Last login: Wed Jan  5 08:40:23 2022 from 103.145.229.158
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo ls /etc/nginx/sites-enabled/
+default  myflaskapp
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo vi /etc/nginx/sites-enabled/myflaskapp
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo snap install core; sudo snap refresh core
+core 16-2.52.1 from Canonical✓ installed
+snap "core" has no updates available
+ubuntu@ip-172-31-42-44:~$ sudo apt-get remove certbot
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Package 'certbot' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 16 not upgraded.
+ubuntu@ip-172-31-42-44:~$ sudo apt-get update
+Hit:1 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Get:3 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Hit:4 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease
+Fetched 228 kB in 1s (227 kB/s)
+Reading package lists... Done
+ubuntu@ip-172-31-42-44:~$ sudo snap install --classic certbot
+certbot 1.22.0 from Certbot Project (certbot-eff✓) installed
+ubuntu@ip-172-31-42-44:~$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+ubuntu@ip-172-31-42-44:~$ sudo certbot --nginx
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices)
+ (Enter 'c' to cancel): softmanoranjan@gmail.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must
+agree in order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: n
+Account registered.
+
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: equity-updates.com
+2: www.equity-updates.com
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel):
+Requesting a certificate for equity-updates.com and www.equity-updates.com
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/equity-updates.com/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/equity-updates.com/privkey.pem
+This certificate expires on 2022-04-05.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for equity-updates.com to /etc/nginx/sites-enabled/myflaskapp
+Successfully deployed certificate for www.equity-updates.com to /etc/nginx/sites-enabled/myflaskapp
+Congratulations! You have successfully enabled HTTPS on https://equity-updates.com and https://www.equity-updates.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ubuntu@ip-172-31-42-44:~$ sudo certbot renew --dry-run
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Processing /etc/letsencrypt/renewal/equity-updates.com.conf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Account registered.
+Simulating renewal of an existing certificate for equity-updates.com and www.equity-updates.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations, all simulated renewals succeeded:
+  /etc/letsencrypt/live/equity-updates.com/fullchain.pem (success)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo vi /etc/nginx/sites-enabled/myflaskapp
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl start nginx
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/myapp.log
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/
+access.log       access.log.2.gz  error.log.1      myapp.log.1
+access.log.1     error.log        myapp.log        myapp.log.2.gz
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/error.log
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':80'
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      13726/nginx: master
+tcp6       0      0 :::80                   :::*                    LISTEN      13726/nginx: master
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':443'
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      13726/nginx: master
+ubuntu@ip-172-31-42-44:~$ sudo ufw status
+Status: inactive
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/
+access.log       access.log.2.gz  error.log.1      myapp.log.1
+access.log.1     error.log        myapp.log        myapp.log.2.gz
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/access.log
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/error.log.1
+.bash_history              .cache/                    .ssh/                      flask/
+.bash_logout               .local/                    .sudo_as_admin_successful
+.bashrc                    .profile                   .viminfo
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/error.log.1
+.bash_history              .cache/                    .ssh/                      flask/
+.bash_logout               .local/                    .sudo_as_admin_successful
+.bashrc                    .profile                   .viminfo
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/error.log.1
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl stop nginx
+ubuntu@ip-172-31-42-44:~$ sudo systemctl status nginx
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Wed 2022-01-05 08:50:44 UTC; 4min 34s ago
+       Docs: man:nginx(8)
+    Process: 13785 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 13786 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+
+Jan 05 08:50:43 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jan 05 08:50:43 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Jan 05 08:50:43 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to 0.0.0.0:443 failed (98: Address already in use)
+Jan 05 08:50:44 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jan 05 08:50:44 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Jan 05 08:50:44 ip-172-31-42-44 nginx[13786]: nginx: [emerg] bind() to 0.0.0.0:443 failed (98: Address already in use)
+Jan 05 08:50:44 ip-172-31-42-44 nginx[13786]: nginx: [emerg] still could not bind()
+Jan 05 08:50:44 ip-172-31-42-44 systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Jan 05 08:50:44 ip-172-31-42-44 systemd[1]: nginx.service: Failed with result 'exit-code'.
+Jan 05 08:50:44 ip-172-31-42-44 systemd[1]: Failed to start A high performance web server and a reverse proxy server.
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':443'
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      13726/nginx: master
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':80'
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      13726/nginx: master
+tcp6       0      0 :::80                   :::*                    LISTEN      13726/nginx: master
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ ps -ef | grep 13726
+root       13726       1  0 08:47 ?        00:00:00 nginx: master process nginx -c /etc/nginx/nginx.conf
+www-data   13763   13726  0 08:48 ?        00:00:00 nginx: worker process
+ubuntu     13917   12846  0 08:55 pts/2    00:00:00 grep --color=auto 13726
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ kill -9 13726
+-bash: kill: (13726) - Operation not permitted
+ubuntu@ip-172-31-42-44:~$ sudo kill -9 13726
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl start nginx
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ vi /var/log/nginx/error.log
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':80'
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      13763/nginx: worker
+tcp6       0      0 :::80                   :::*                    LISTEN      13763/nginx: worker
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':443'
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      13763/nginx: worker
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl start nginx
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl stop nginx
+ubuntu@ip-172-31-42-44:~$ sudo systemctl stop nginx
+ubuntu@ip-172-31-42-44:~$ sudo systemctl stop nginx
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':443'
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      13763/nginx: worker
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':80'
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      13763/nginx: worker
+tcp6       0      0 :::80                   :::*                    LISTEN      13763/nginx: worker
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo kill -9 13763
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl start nginx
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo systemctl status nginx
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-01-05 08:58:50 UTC; 3s ago
+       Docs: man:nginx(8)
+    Process: 14008 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 14009 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+   Main PID: 14010 (nginx)
+      Tasks: 2 (limit: 1147)
+     Memory: 2.5M
+     CGroup: /system.slice/nginx.service
+             ├─14010 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+             └─14011 nginx: worker process
+
+Jan 05 08:58:50 ip-172-31-42-44 systemd[1]: Starting A high performance web server and a reverse proxy server...
+Jan 05 08:58:50 ip-172-31-42-44 systemd[1]: Started A high performance web server and a reverse proxy server.
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':80'
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      14010/nginx: master
+tcp        0      0 127.0.0.1:8000          0.0.0.0:*               LISTEN      14019/python3
+tcp6       0      0 :::80                   :::*                    LISTEN      14010/nginx: master
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ sudo netstat -ltnup | grep ':443'
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      14010/nginx: master
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$

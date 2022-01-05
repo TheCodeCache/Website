@@ -1,0 +1,111 @@
+Using username "ubuntu".
+Authenticating with public key "imported-openssh-key"
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-1022-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Jan  5 08:30:57 UTC 2022
+
+  System load:  0.0               Processes:             107
+  Usage of /:   28.7% of 7.69GB   Users logged in:       0
+  Memory usage: 28%               IPv4 address for eth0: 172.31.42.44
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+6 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+
+*** System restart required ***
+Last login: Mon Jan  3 17:43:17 2022 from 103.145.229.158
+^Tleyt ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ uname -a
+Linux ip-172-31-42-44 5.11.0-1022-aws #23~20.04.1-Ubuntu SMP Mon Nov 15 14:03:19 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+ubuntu@ip-172-31-42-44:~$ nproc -all
+nproc: invalid option -- 'a'
+Try 'nproc --help' for more information.
+ubuntu@ip-172-31-42-44:~$ nproc --all
+1
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ cat /etc/cpuinfo
+cat: /etc/cpuinfo: No such file or directory
+ubuntu@ip-172-31-42-44:~$ ls /etc | grep cpu
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ cat /etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.3 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.3 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+ubuntu@ip-172-31-42-44:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 20.04.3 LTS
+Release:        20.04
+Codename:       focal
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ hostnamectl
+   Static hostname: ip-172-31-42-44
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 5d6c09de28e34be7824fde3054ff04ef
+           Boot ID: 9df8c5a270e84f08ab6263d3b5ca83a4
+    Virtualization: xen
+  Operating System: Ubuntu 20.04.3 LTS
+            Kernel: Linux 5.11.0-1022-aws
+      Architecture: x86-64
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ ps -ef | grep unicorn
+ubuntu      1098       1  0 Jan03 ?        00:00:16 /usr/bin/python3 /usr/bin/gunicorn3 app:app
+ubuntu      1779    1098  0 Jan03 ?        00:00:02 /usr/bin/python3 /usr/bin/gunicorn3 app:app
+ubuntu     13087   12651  0 08:41 pts/1    00:00:00 grep --color=auto unicorn
+ubuntu@ip-172-31-42-44:~$ kill -9 1098
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ ps -ef | grep unicorn
+ubuntu     13089   12651  0 08:42 pts/1    00:00:00 grep --color=auto unicorn
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ ps -ef | grep nginx
+root        1089       1  0 Jan03 ?        00:00:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data    1293    1089  0 Jan03 ?        00:00:00 nginx: worker process
+ubuntu     13101   12651  0 08:42 pts/1    00:00:00 grep --color=auto nginx
+ubuntu@ip-172-31-42-44:~$ kill -9 1089
+-bash: kill: (1089) - Operation not permitted
+ubuntu@ip-172-31-42-44:~$ sudo kill -9 1089
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ ps -ef | grep nginx
+ubuntu     13108   12651  0 08:42 pts/1    00:00:00 grep --color=auto nginx
+ubuntu@ip-172-31-42-44:~$ sudo systemctl status gunicorn
+Unit gunicorn.service could not be found.
+ubuntu@ip-172-31-42-44:~$
+ubuntu@ip-172-31-42-44:~$ cd flask/
+ubuntu@ip-172-31-42-44:~/flask$ ls
+__pycache__  app.py
+ubuntu@ip-172-31-42-44:~/flask$ ll
+total 16
+drwxrwxr-x 3 ubuntu ubuntu 4096 Jan  3 00:41 ./
+drwxr-xr-x 6 ubuntu ubuntu 4096 Jan  5 08:56 ../
+drwxr-xr-x 2 root   root   4096 Jan  2 16:10 __pycache__/
+-rw-rw-r-- 1 ubuntu ubuntu  183 Jan  2 16:10 app.py
+ubuntu@ip-172-31-42-44:~/flask$ gunicorn app:app
+[2022-01-05 08:59:27 +0000] [14019] [INFO] Starting gunicorn 20.0.4
+[2022-01-05 08:59:27 +0000] [14019] [INFO] Listening at: http://127.0.0.1:8000 (14019)
+[2022-01-05 08:59:27 +0000] [14019] [INFO] Using worker: sync
+[2022-01-05 08:59:27 +0000] [14021] [INFO] Booting worker with pid: 14021
