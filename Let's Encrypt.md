@@ -63,5 +63,5 @@ the command to renew certbot is installed in one of the following locations:
 - /etc/cron.*/*
 - systemctl list-timers  
 
-To check how I actually followed the above steps, please visit [this](https://github.com/TheCodeCache/Website/blob/master/activity_log_4.txt) and [this](https://github.com/TheCodeCache/Website/blob/master/activity_log_5.txt)  
+To check how I've actually followed the above steps, kindly visit [this](https://github.com/TheCodeCache/Website/blob/master/activity_log_4.txt) and [this](https://github.com/TheCodeCache/Website/blob/master/activity_log_5.txt)  
 
