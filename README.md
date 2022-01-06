@@ -2,7 +2,5 @@
 
 http://equity-updates.com/  
 
-#it's not currently down due to high maintenance costs charged by AWS.  
-
-[**`Work In Progress . . .`**]
+#it's currently up and running, but for a few days
 
