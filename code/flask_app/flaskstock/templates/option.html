@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>{{ title }}</title>
+
+	<link href="/static/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/gijgo.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/static/slick.css">
+	<link rel="stylesheet" href="/static/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-multiselect.css">
+	<link href="/static/teststyle.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+	<script src="/static/js/option-chain-table.js"></script>
+	<script src="/static/js/option-chain.js"></script>
+
+</head>
+
+<body>
+	<header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Flask Stock</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="/">Home</a>
+              <a class="nav-item nav-link" href="/about">About</a>
+              <a class="nav-item nav-link" href="/option">Option</a>
+			  <!--<a class="nav-item nav-link" href="/optiontest">OptionTest</a>-->
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+	<main role="main" class="container">
+	<div class="container my-3" id="optionchain_equity_sp">
+		<div class="row align-items-center">
+			<div class="col-md-12">
+				<div class="row filterMaxWid">
+					<div class="col-md-6">
+						<h1 class="section-heading">Option Chain (Equity Derivatives)</h1></div>
+					<div class="col-md-6 text-right">
+						<div class="text-right"> <a onclick="redirectFutureCon('equity', '#equity_optionchain_select')" href="javascript:;" class="link">Futures contracts</a> </div>
+					</div>
+				</div>
+				<div class="row mt-2 filterMaxWid">
+					<div class="col-md-2 custDisFlex">
+						<label> View Options Contracts for:</label>
+						<div id="optionContract" class="custom_select">
+							<select name="" id="equity_optionchain_indices_select">
+								<option value="">Select</option>
+								{% for indices_symbol in indices_symbols %}
+									{% if indices_symbol == symbol %}
+										<option value="{{ indices_symbol }}"  selected="selected">{{ indices_symbol }}</option>
+									{% else %}
+										<option value="{{ indices_symbol }}" >{{ indices_symbol }}</option>
+									{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<label class="custDisFlex Or"> OR</label>
+					<div id="" class="col-md-2">
+						<label>Select Symbol</label>
+						<div class="custom_select">
+							<select id="equity_optionchain_stocks_select">
+								<option value="">Select</option>
+								{% for symbol in stocks_symbols %}
+									<option value="{{ symbol }}">{{ symbol }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<!--<div class="btn-go col-md-1 borderRight">
+                                                    <button type="button" id="symbolSearchGo" class="btn flat-button-white w-100">GO</button>
+                                                </div>-->
+					<!-- <div class="col-md-4 custDisFlex searchBox">
+                                                    <input type="text" placeholder="Search underlying symbol" id="symbolSearch" class="form-control col-md-8companyVal typeahead companyAutoComplete">
+                                                    <div class="btn-go col-md-4">
+                                                        <button type="button" id="symbolSearchGo" class="btn flat-button-white w-100">GO</button>
+                                                    </div>
+                                                </div> -->
+					<div id="expiryDateFilter" class="col-md-2 blockDivider">
+						<label>Expiry Date</label>
+						<div class="custom_select">
+							<select id="equity_optionchain_expiry_select">
+								<option value="">Select</option>
+								<option value="{{ expiry_dates[0] }}" selected="selected">{{ expiry_dates[0] }}</option>
+								{% for expiry_date in expiry_dates[1:] %}
+									<option value="{{ expiry_date }}">{{ expiry_date }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<label id="filterDivider" class="custDisFlex Or"> OR</label>
+					<div id="strikePriceFilter" class="col-md-2">
+						<label>Strike Price</label>
+						<div class="custom_select">
+							<select id="equity_optionchain_strike_select">
+								<option value="">Select</option>
+								{% for strike_price in strike_prices %}
+									<option value="{{ strike_price }}">{{ strike_price }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<!--<div id="equityChartFilter" class="col-md-2">
+                                                    <label>Charts</label>
+                                                    <div class="custom_select">
+                                                        <select id="equityChartSelect" onchange="onEquityChartSelection(this, this.value, 'equity')">
+                                                            <option value="SelectGraph">Select Chart</option>
+                                                            <option value="oiChange">OI change</option>
+                                                            <option value="scatterGraph">Implied Volatality graph</option>
+                                                        </select>
+                                                    </div>
+                                                </div>--></div>
+				<div class="row my-2">
+					<div class="row col-12">
+						<div class="col-md-7 mb-1">
+							Underlying Index: <span id="equity_underlyingVal" class="bold">{{ symbol }} {{ market_value }}</span>
+							<span id="equity_timeStamp" class="asondate">As on {{ timestamp }} IST</span>
+							<span><a href="javascript:;" id="equity_optionchain_refresh">
+								<img class="refreshIcon" src="/static/images/refresh-icon.svg" alt="Refresh"></a>
+							</span>
+						</div>
+						<div class="xlsDownload-wrp col d-flex justify-content-end">
+							<div class="mr-3"> <a href="javascript:;" onclick="scrollToNote('EqNote')">Terms of Use</a> </div>
+							<div class="mr-3">
+								<a class="fullViewBtn" href="javascript:;" onclick="optionChainFullScreen()">
+									<img src="/static/images/fullView.svg" alt="Full View"> Best View
+								</a>
+							</div>
+							<div class="xlsdownload">
+								<a id="downloadOCTable" download="option-chain-equity-derivatives.csv" href="javascript:;" onclick="downloadOCFile(this, 'equity')">
+									<img src="/static/images/icon-xls.svg" alt="csv" title="csv"> Download (.csv)
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="table-wrap my-3 borderSet" id="option_data_div">
+							<div id="equity_optionChainTable" class="customTable-width optionChainTable wordBreak borderTD">
+								<!-- Reserved space for option data grid populated via Ajax calls -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+	$.fn.populateFunction = function(param, selectedOption) {
+		if (selectedOption === "" || (typeof selectedOption === 'undefined')) {
+			// $('#subtopicsId').prop('disabled', 'disabled').val('');
+			// $("#subtopicsId option").slice(1).remove(); // keep first
+			// alert('inside blank select indices')
+		} else {
+			var orig = $(location).attr('origin');
+			var url = orig + "/ajax/" + selectedOption + "/" + param;
+			$.ajax({
+				url: url,
+				success: function (response) {
+					//let len = response.length;
+					$("#option_data_div").empty()
+					$("#option_data_div").append(response['html'])
+					let marketValue = response['market_value']
+					$("#equity_underlyingVal").text(selectedOption + ' ' + marketValue)
+					if (param === "indices") {
+						$("#equity_optionchain_stocks_select").val('')
+					} else if (param === "stocks") {
+						$("#equity_optionchain_indices_select").val('')
+					}
+
+					let options = ""
+					options += '<br><option value="">Select</option>'
+					for (exp of response['expiry_dates']) {
+						options += '<br><option value="'+exp+'">'+exp+'</option>'
+					}
+					options += '</br>'
+					$("#equity_optionchain_expiry_select").empty()
+					$("#equity_optionchain_expiry_select").append(options)
+					$("#equity_optionchain_expiry_select").val(response['expiry_dates'][0])
+
+					options = ""
+					options += '<br><option value="">Select</option>'
+					for (strike of response['strike_prices']) {
+						options += '<br><option value="'+strike+'">'+strike+'</option>'
+					}
+					options += '</br>'
+					$("#equity_optionchain_strike_select").empty()
+					$("#equity_optionchain_strike_select").append(options)
+					$("#equity_optionchain_strike_select").val('')
+				},
+				error: function (e) {
+					console.log("AJAX ERROR : ", e);
+				}
+			});
+		}
+	}
+
+	$('#equity_optionchain_indices_select').change(function () {
+		let selectedOption = $(this).val();
+		$.fn.populateFunction('indices', selectedOption);
+	}).change(); // and call it once defined
+
+	$('#equity_optionchain_stocks_select').change(function () {
+		let selectedOption = $(this).val();
+		$.fn.populateFunction('stocks', selectedOption);
+	}).change(); // and call it once defined
+
+	$.fn.filterFunction = function(param, selectedOption) {
+		if (selectedOption === "" || (typeof selectedOption === 'undefined')) {
+			// $('#subtopicsId').prop('disabled', 'disabled').val('');
+			// $("#subtopicsId option").slice(1).remove(); // keep first
+			// alert('inside blank select expiry')
+		} else {
+			var orig = $(location).attr('origin');
+			let indices = $('#equity_optionchain_indices_select').val();
+			let stocks = $('#equity_optionchain_stocks_select').val();
+			let symbol=''
+			if (indices) {
+				symbol = indices
+			}
+			if (stocks) {
+				symbol = stocks
+			}
+			var url = orig + "/filter_path/" + symbol + '/' + selectedOption + '/' + param;
+			// alert(url)
+			$.ajax({
+				url: url,
+				success: function (response) {
+					//let len = response.length;
+					$("#option_data_div").empty()
+					$("#option_data_div").append(response)
+					if (param === "expiry_date") {
+						$("#equity_optionchain_strike_select").val('')
+					} else if (param === "strike_price") {
+						$("#equity_optionchain_expiry_select").val('')
+					}
+				},
+				error: function (e) {
+					console.log("AJAX ERROR : ", e);
+				}
+			});
+		}
+    }
+
+	$('#equity_optionchain_expiry_select').change(function () {
+		let selectedOption = $(this).val();
+		$.fn.filterFunction('expiry_date', selectedOption);
+	}).change(); // and call it once defined
+
+	$('#equity_optionchain_strike_select').change(function () {
+		let selectedOption = $(this).val();
+		$.fn.filterFunction('strike_price', selectedOption);
+	}).change(); // and call it once defined
+
+	$('#equity_optionchain_refresh').click(function () {
+		alert('refreshing...')
+	});
+});
+</script>
+</body>
+</html>

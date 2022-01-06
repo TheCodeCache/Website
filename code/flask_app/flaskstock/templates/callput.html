@@ -1,0 +1,220 @@
+<table id="optionChainTable-indices" class="common_table w-100">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="11">CALLS</th>
+            <th></th>
+            <th class="text-center" colspan="11">PUTS</th>
+        </tr>
+        <tr>
+            <th width="2.34%"><span> </span></th>
+            <th width="5.14%" title="Open Interest in contracts">OI<span> </span></th>
+            <th width="4.34%" title="Change in Open Interest (Contracts)">Chng in OI<span> </span></th>
+            <th width="5.54%" title="Volume in Contracts">Volume<span> </span></th>
+            <th width="3.34%" title="Implied Volatility">IV<span> </span></th>
+            <th width="4.34%" title="Last Traded Price">LTP<span> </span></th>
+            <th width="4.34%" title="Change w.r.t to Previous Close">Chng<span> </span></th>
+            <th width="4.34%" title="Best Bid/Buy Qty">Bid Qty<span> </span></th>
+            <th width="4.34%" title="Best Bid/Buy Price">Bid Price<span> </span></th>
+            <th width="4.34%" title="Best Ask/Sell Price">Ask Price<span> </span></th>
+            <th width="4.34%" title="Best Ask/Sell Qty">Ask Qty<span> </span></th>
+            <th width="6.34%">Strike Price<span> </span></th>
+            <th width="4.34%" title="Best Bid/Buy Qty">Bid Qty<span> </span></th>
+            <th width="4.34%" title="Best Bid/Buy Price">Bid Price<span> </span></th>
+            <th width="4.34%" title="Best Ask/Sell Price">Ask Price<span> </span></th>
+            <th width="4.34%" title="Best Ask/Sell Qty">Ask Qty<span> </span></th>
+            <th width="4.34%" title="Change w.r.t to Previous Close">Chng<span> </span></th>
+            <th width="4.34%" title="Last Traded Price">LTP<span> </span></th>
+            <th width="3.34%" title="Implied Volatility">IV<span> </span></th>
+            <th width="5.54%" title="Volume in Contracts">Volume<span> </span></th>
+            <th width="4.34%" title="Change in Open Interest (Contracts)">Chng in OI<span> </span></th>
+            <th width="5.14%" title="Open Interest in contracts">OI<span> </span></th>
+            <th width="2.34%"><span> </span></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in option_data %}
+            <tr>
+                {% if data['strikePrice'] < market_value %}
+                    {% set ce_boot_class = 'bg-yellow' %}
+                    {% set pe_boot_class = '' %}
+                {% else %}
+                    {% set ce_boot_class = '' %}
+                    {% set pe_boot_class = 'bg-yellow' %}
+                {% endif %}
+                {% if data.get('CE') != None %}
+                    <td width="2.34%" class="{{ ce_boot_class }}">
+                    <a href="javascript:;" onclick="genChainGraph('OPTIDXNIFTY29-07-2021CE13000.00','OPTIDXNIFTY29-07-2021PE13000.00', '13000', '29-Jul-2021', 'NIFTY')" data-toggle="modal" data-target="#modal_oc_graph"><img src="/static/images/grficon.gif" alt="Graph"></a>
+                    </td>
+                    <td width="5.14%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['openInterest'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['openInterest'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['changeinOpenInterest'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['changeinOpenInterest'] }}
+                        {% endif %}
+                    </td>
+                    <td width="5.54%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['totalTradedVolume'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['totalTradedVolume'] }}
+                        {% endif %}
+                    </td>
+                    <td width="3.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['impliedVolatility'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['impliedVolatility'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}"><a class="bold" href="/get-quotes/derivatives?symbol=NIFTY&amp;identifier=OPTIDXNIFTY29-07-2021CE13000.00" target="_blank">
+                        {% if data.get('CE') != None and data['CE']['lastPrice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['lastPrice'] }}
+                        {% endif %}
+                    </a></td>
+                    <td width="4.34%" class="{{ ce_boot_class }} redTxt">
+                        {% if data.get('CE') != None and data['CE']['change'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['change'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['bidQty'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['bidQty'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['bidprice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['bidprice'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['askPrice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['askPrice'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">
+                        {% if data.get('CE') != None and data['CE']['askQty'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['CE']['askQty'] }}
+                        {% endif %}
+                    </td>
+                {% else %}
+                    <td width="2.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="5.14%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="5.54%" class="{{ ce_boot_class }}">-</td>
+                    <td width="3.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }} redTxt">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ ce_boot_class }}">-</td>
+                {% endif %}
+                <td width="6.34%"><a class="bold" href="javascript:;">{{ data['strikePrice'] }}</a></td>
+                {% if data.get('PE') %}
+                    <td width="4.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['bidQty'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['bidQty'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['bidprice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['bidprice'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['askPrice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['askPrice'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['askQty'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['askQty'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }} redTxt">
+                        {% if data.get('PE') != None and data['PE']['change'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['change'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }}"><a class="bold" href="/get-quotes/derivatives?symbol=NIFTY&amp;identifier=OPTIDXNIFTY29-07-2021PE13000.00" target="_blank">
+                        {% if data.get('PE') != None and data['PE']['lastPrice'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['lastPrice'] }}
+                        {% endif %}
+                    </a></td>
+                    <td width="3.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['impliedVolatility'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['impliedVolatility'] }}
+                        {% endif %}
+                    </td>
+                    <td width="5.54%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['totalTradedVolume'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['totalTradedVolume'] }}
+                        {% endif %}
+                    </td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['changeinOpenInterest'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['changeinOpenInterest'] }}
+                        {% endif %}
+                    </td>
+                    <td width="5.14%" class="{{ pe_boot_class }}">
+                        {% if data.get('PE') != None and data['PE']['openInterest'] == 0 %}
+                            {{ '-' }}
+                        {% else %}
+                            {{ data['PE']['openInterest'] }}
+                        {% endif %}
+                    </td>
+                    <td width="2.34%"><a href="javascript:;" onclick="genChainGraph('OPTIDXNIFTY29-07-2021CE13000.00','OPTIDXNIFTY29-07-2021PE13000.00', '13000', '29-Jul-2021', 'NIFTY')" data-toggle="modal" data-target="#modal_oc_graph"><img src="/static/images/grficon.gif" alt="Graph"></a></td>
+                {% else %}
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }} redTxt">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="3.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="5.54%" class="{{ pe_boot_class }}">-</td>
+                    <td width="4.34%" class="{{ pe_boot_class }}">-</td>
+                    <td width="5.14%" class="{{ pe_boot_class }}">-</td>
+                    <td width="2.34%" class="{{ pe_boot_class }}">-</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
