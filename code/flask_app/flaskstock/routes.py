@@ -7,9 +7,15 @@ from flaskstock.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskstock.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
-from flaskstock import stock_helper as helper
 from flaskstock import stock_util as util
+from flaskstock import stock_helper as helper
+
 from datetime import datetime
+
+import logging
+
+logging.basicConfig(filename='equity-updates.log',
+                    level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 
 """
  this dictionary grows in size over the time,
@@ -117,6 +123,7 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+
 @app.route("/optiontest")
 @login_required
 def optiontest():
@@ -127,7 +134,7 @@ def optiontest():
 
     symbols = util.get_symbols(
         f"https://www.nseindia.com/products-services/equity-derivatives-list-underlyings-information")
-    print(symbols)
+    logging.info(symbols)
 
     my_date = datetime.now()
     timestamp = my_date.strftime('%d-%b-%Y %H:%M:%S')
@@ -158,14 +165,16 @@ def optiontest():
 @app.route("/option")
 @login_required
 def option():
+    logging.info('/option path invoked')
     data = helper.get_option_data()
 
     expiry_dates = helper.get_expiry_dates(data)
     strike_prices = helper.get_strike_prices(data)
 
+    logging.info(f'fetching symbols...')
     symbols = util.get_symbols(
         f"https://www.nseindia.com/products-services/equity-derivatives-list-underlyings-information")
-    print(symbols)
+    logging.info(f'symbols: {symbols}')
 
     my_date = datetime.now()
     timestamp = my_date.strftime('%d-%b-%Y %H:%M:%S')
@@ -183,27 +192,27 @@ def option():
 
 @app.route("/ajax/<string:symbol>/<string:tag>")
 def ajax(symbol, tag):
-    print(f'requesting option-data for symbol: {symbol} and tag: {tag}')
+    logging.info(f'requesting option-data for symbol: {symbol} and tag: {tag}')
 
     data = helper.get_option_data(symbol, tag)
-
+    logging.info(data)
     float_attrs = ['change']
     formatted_data = helper.format_float_values(data, float_attrs)
     # formatted_data = util.replace_0_with_hyphen(formatted_data)
-
+    logging.info(formatted_data)
     global option_data_in_use
     option_data_in_use[symbol] = formatted_data
 
     total_dict = helper.get_total_symbol(formatted_data)
-
+    logging.info(total_dict)
     market_value = formatted_data['records']['underlyingValue']
-    print('market_value: ', market_value)
+    logging.info(f'market_value: [{market_value}]')
 
     expiry_dates = helper.get_expiry_dates(formatted_data)
     strike_prices = helper.get_strike_prices(formatted_data)
 
-    filter_data = helper.filter_by_expiry_date(formatted_data, expiry_dates[0])
-    # print(filter_data)
+    filter_data = helper.filter_by_expiry_date(formatted_data, expiry_dates[0]) if expiry_dates else []
+    # logging.info(filter_data)
 
     html = render_template("section.html",
                            symbol=symbol,
@@ -228,14 +237,14 @@ def filter_path(symbol, tag_value, tag_name):
     :return:
     """
 
-    print(f"symbol: {symbol}, \
+    logging.info(f"symbol: {symbol}, \
             tag_value: {tag_value}, tag_name: {tag_name}")
 
     if symbol in option_data_in_use:
-        print('OPTION-DATA HAS BEEN FOUND IN GLOBAL SPACE')
+        logging.info('OPTION-DATA HAS BEEN FOUND IN GLOBAL SPACE')
         formatted_data = option_data_in_use[symbol]
     else:
-        print('OPTION-DATA NOT FOUND IN GLOBAL SPACE')
+        logging.info('OPTION-DATA NOT FOUND IN GLOBAL SPACE')
         formatted_data = None
 
     market_value = formatted_data['records']['underlyingValue']

@@ -3,6 +3,7 @@
 #####
 from flaskstock import stock_util as util
 import json
+import logging
 
 
 def filter_by_expiry_date(data, date):
@@ -19,6 +20,7 @@ def get_total_symbol(data):
     total_dict = {'ce': {'vol': data['filtered']['CE']['totVol'], 'oi': data['filtered']['CE']['totOI']},
                   'pe': {'vol': data['filtered']['PE']['totVol'], 'oi': data['filtered']['PE']['totOI']}}
     return total_dict
+
 
 def get_total_filter(filtered_data):
     ce_sum_oi, pe_sum_oi, ce_sum_vol, pe_sum_vol = 0, 0, 0, 0
@@ -66,7 +68,8 @@ def get_option_data(symbol='NIFTY', tag='indices'):
 
     url = f"https://www.nseindia.com/api/option-chain-{word}?symbol={symbol}"
     response = util.place_request(url)
-    # print(json.dumps(response.json()))
-
-    data = json.loads(response.text)
-    return data
+    logging.info('option_data received:')
+    # logging.info(f'option_data: {response}')
+    # logging.info(f'option_data_type: {type(response)}')
+    # data = json.loads(response.text)
+    return response
