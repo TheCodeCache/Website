@@ -1,4 +1,4 @@
-# How to run python flask app on nginx & gunicorn — 
+# How to run python flask app on `NGINX` & `Gunicorn3` — 
 
 **Pre-requisites:**  
 install python3 (`sudo apt-get install python3`)  
